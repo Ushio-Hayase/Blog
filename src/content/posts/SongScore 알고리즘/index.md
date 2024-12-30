@@ -50,6 +50,6 @@ SongScore는 이러한 흐름으로 구현되어있습니다.
 여기서 같은 시간일때 비슷한 크기의 소리로 비슷한 주파수를 낸다면 그것이 원본 노래와 유사할 수 있다는 아이디어로 알고리즘을 떠올렸습니다.  
 이 일을 해내기 위하여 저희는 코사인 유사도(Cosine Similiarity)를 사용했습니다.  
 코사인 유사도는 두 벡터 사이의 각도를 구하는 방법으로 두 벡터를 a, b, 사잇각을 $$\alpha$$라 할때 식은 다음과 같습니다.  
-$$Cosine \space Similarity = \frac{a \cdot b}{\lVert a \rVert \lVert b \rVert}$$
-여기서 $$a \cdot b$$는 두 벡터의 내적이고 $$\lVert a \rVert$$는 벡터의 노름, 길이입니다.
-이 방식으로 두 벡터 사이의 각을 구해 유사도를 구하고 점수를 구할 수 있습니다.
+$$Cosine \space Similarity = \frac{a \cdot b}{\lVert a \rVert \lVert b \rVert}$$  
+여기서 $$a \cdot b$$는 두 벡터의 내적이고 $$\lVert a \rVert$$는 벡터의 노름, 길이입니다.  
+이 방식으로 두 벡터 사이의 각을 구해 유사도를 구하고 점수를 구할 수 있습니다.  
