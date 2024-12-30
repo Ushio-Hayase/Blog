@@ -34,7 +34,7 @@ SongScore는 이러한 흐름으로 구현되어있습니다.
 푸리에 변환에 관한 자세한 사항은 아래 영상에 나와있습니다.
 
 
-<iframe width="100%" height="468" src="https://youtu.be/Mc9PHZ3H36M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+<iframe width="100%" height="468" src="https://youtu.be/embed/Mc9PHZ3H36M" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 
 
 이 것이 가능한 이유는 모든 신호는 원본에 더해지는 사인파 및 코사인파로 분해될 수 있기 때문입니다.  
