@@ -1,5 +1,5 @@
 ---
-title: 윈도우 메시지 루프 논블로킹 메시지 처리리
+title: 윈도우 메시지 루프 논블로킹 메시지 처리
 published: 2025-02-23
 description: "Window API의 GetMessage와 PeekMessage를 애니메이션 동작을 이용하여 비교"
 tags: ["WinAPI", "C", "C++"]
