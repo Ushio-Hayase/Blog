@@ -117,4 +117,16 @@ void push(const value_type& _Val) {
 void push(value_type&& _Val) {
     c.push_back(_STD move(_Val));
 }
+
+void pop() noexcept(noexcept(c.pop_back())) /* strengthened */ {
+    c.pop_back();
+}
 ```
+
+각 메서드는 위쪽부터
+- 스택이 비었는지 확인
+- 스택의 크기 확인
+- 스택의 가장 위쪽 요소 반환
+- 스택에 요소 넣기
+- 스택에서 요소 제거
+기능들을 수행합니다. 

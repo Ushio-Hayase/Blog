@@ -33,9 +33,21 @@ draft: false
 큐가 정의하는 연산은 여러가지있지만 핵심적인 연산은 다음과 같습니다. 
 
 1. 인큐(Enqueue) : 큐에 새로운 데이터를 추가하는 연산입니다. 데이터는 큐의 맨 뒤(rear)에 삽입됩니다.
+
+![인큐](./enqueue.png)
+
 2. 디큐(Dequeue) : 큐에서 데이터를 꺼내는 연산입니다. 큐의 맨 앞(front)에 있는 데이터를 제거하고 반환합니다.
+
+![디큐](./Dequeue.jpg)
+
 3. 피크(Peek) : 큐의 맨 앞(front)에 있는 데이터를 조회하는 연산입니다.
+
+![피크](./Peek.jpg)
+
 4. IsEmpty : 큐가 비어있는지 확인하는 연산입니다. 
+
+![IsEmpty](./IsEmpty.jpg)
+
 
 ### 큐를 구현하는 방법
 
@@ -88,6 +100,8 @@ private:
 
 };
 ```
+
+![배열큐](./큐.jpg)
 
 2. 연결 리스트를 이용한 큐 구현
 
@@ -143,6 +157,8 @@ private:
 };
 ```
 
+![LinkedListQueue](./LinkedListQueue.jpg)
+
 
 3. 원형 큐 구현
 
@@ -192,6 +208,8 @@ private:
 
 };
 ```
+
+![원형큐](./CircularQueue.jpg)
 
 ## C++에서의 큐
 
