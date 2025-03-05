@@ -142,3 +142,5 @@ timeEndPeriod(1);
 # 결론 및 느낀점
 
 처음에 생각하기엔 쉬워보였는데 생각외로 찾아볼게 있는 프로젝트였다.
+
+::github{repo="Ushio-Hayase/WindowAPI-Timer"}
