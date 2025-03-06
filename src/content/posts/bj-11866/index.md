@@ -82,3 +82,6 @@ int main()
 
 :::note[결과]  
 맞았습니다!!
+
+
+[깃헙 링크](https://github.com/Ushio-Hayase/Baekjoon/tree/main/%EB%B0%B1%EC%A4%80/Silver/11866.%E2%80%85%EC%9A%94%EC%84%B8%ED%91%B8%EC%8A%A4%E2%80%85%EB%AC%B8%EC%A0%9C%E2%80%850)
