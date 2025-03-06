@@ -1,5 +1,5 @@
 ---
-title: 백준 18110 C++
+title: 백준 18110 C++ 풀이
 published: 2025-03-05
 description: "백준 18110번 문제 C++ 풀이"
 tags: ["P.S.", "C++", "Baekjoon"]

@@ -1,5 +1,5 @@
 ---
-title: 백준 15829 C++
+title: 백준 15829 C++ 풀이
 published: 2025-03-06
 description: "백준 15829번 문제 C++ 풀이"
 tags: ["P.S.", "C++", "Baekjoon"]

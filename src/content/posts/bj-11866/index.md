@@ -1,7 +1,7 @@
 ---
-title: 백준 11866번 C++ 풀이 
+title: 백준 11866번 C++ 풀이
 published: 2025-03-06
-description: 백준 11866번 C++ 풀이
+description: "백준 11866번 C++ 풀이"
 tag: ["P.S.", "C++", "Baekjoon"]
 category: P.S.
 ---
