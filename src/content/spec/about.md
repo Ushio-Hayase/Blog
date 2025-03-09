@@ -10,6 +10,3 @@
 This website is from this site for [Fuwari](https://github.com/saicaca/fuwari).
 
 ::github{repo="saicaca/fuwari"}
-
-> ### Sources of images used in this site
-> - [流萤 ホタル firefly](https://www.pixiv.net/artworks/125409208) by [雫霁霂霈零雫](https://www.pixiv.net/users/10381692)
