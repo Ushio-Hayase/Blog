@@ -2,7 +2,7 @@
 title: C++과 스택 (Stack)
 published: 2025-02-26
 description: "스택의 개념과 STL에서의 구현 알아보기"
-tags: ["Data Structure", "C", "C++", "STL"]
+tags: ["Data-Structure", "C", "C++", "STL"]
 category: Knowledge
 draft: false
 ---

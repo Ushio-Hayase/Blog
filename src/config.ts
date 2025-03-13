@@ -53,10 +53,10 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
   avatar: 'assets/images/avatar.png',  // Relative to the /src directory. Relative to the /public directory if it starts with '/'
   name: 'Ushio Hayase',
-  bio: 'nullptr',
+  bio: '게임분야 지망생',
   links: [
     {
-      name: 'Twitter',
+      name: 'Instagram',
       icon: 'fa6-brands:instagram',       // Visit https://icones.js.org/ for icon codes
                                         // You will need to install the corresponding icon set if it's not already included
                                         // `pnpm add @iconify-json/<icon-set-name>`
