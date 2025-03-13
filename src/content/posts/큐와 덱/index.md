@@ -2,7 +2,7 @@
 title: C++과 큐 (Queue), 덱 (Deque)
 published: 2025-02-26
 description: "큐와 덱의 개념과 STL에서의 구현 알아보기"
-tags: ["Data Structure", "C", "C++", "STL"]
+tags: ["Data-Structure", "C", "C++", "STL"]
 category: Knowledge
 draft: false
 ---
