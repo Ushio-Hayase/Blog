@@ -70,7 +70,7 @@ draft: false
 > 22 63
 ## 아이디어
 
-1. ![[18111_first_try.drawio.png]]
+1. ![아이디어](18111_first_try.drawio.png)
 
 ## 1차 시도
 
