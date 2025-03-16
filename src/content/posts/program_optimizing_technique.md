@@ -1,11 +1,10 @@
 ---
 title: 프로그램 최적화 방법 소개
-published: 2025-03-14
+published: 2025-03-16
 description: 프로그램을 컴파일러 친화적으로 더 빠르게 동작하도록 최적화하는 방법
-tags:
-  - Computer_Science
+tags: ["Computer_Science"]
 category: Knowledge
-draft: true
+draft: false
 ---
 # 프로그래머가 최적화를 알아야 하는 이유
 
