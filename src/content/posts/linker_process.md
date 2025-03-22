@@ -69,7 +69,7 @@ C++에서 실행 가능한 프로그램을 만들기 위해서는 일반적으�
 이 때, 재배치 정보가 함께 적용되어, 라이브러리에서 가져온 코드의 주소가 실행 파일의 메모리 배치에 맞게 수정됩니다.
 
 
-링커는 Optional Header에 지정된 Preferred Image Base(예: EXE는 보통 0x400000)를 기준으로, 각 섹션의 **최종 가상 주소(Virtual Address, VA)**를 계산합니다.
+링커는 Optional Header에 지정된 Preferred Image Base(예: EXE는 보통 0x400000)를 기준으로, 각 섹션의 **최종 가상 주소(Virtual Address, VA)** 를 계산합니다.
 
 예를 들어, .text 섹션은 Image Base + 섹션 정렬에 따른 오프셋에 배치되고,
 .data, .rdata 등 다른 섹션도 각각의 오프셋이 계산되어 배정됩니다.
