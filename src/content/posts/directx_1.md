@@ -76,6 +76,8 @@ FXMVECTOR & GXMVECTOR & HXMVECTOR와 CXMVECTOR는 모두 XMVECTOR를 효율적�
 
 ## 참조
 
-[MS_Learn_DirectXMath](https://learn.microsoft.com/en-us/windows/win32/dxmath/pg-xnamath-internals#parameter-passing)
-[__vectorcall](https://learn.microsoft.com/en-us/cpp/cpp/vectorcall)
+[MS_Learn_DirectXMath](https://learn.microsoft.com/en-us/windows/win32/dxmath/pg-xnamath-internals#parameter-passing)  
+
+[__vectorcall](https://learn.microsoft.com/en-us/cpp/cpp/vectorcall)  
+
 [x64_호출규약](https://learn.microsoft.com/en-us/cpp/build/x64-calling-convention)
