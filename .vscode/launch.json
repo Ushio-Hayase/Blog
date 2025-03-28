@@ -6,6 +6,16 @@
       "name": "Development server",
       "request": "launch",
       "type": "node-terminal"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "console": "externalTerminal",
+      "cwd": "d:/_Study/baekjoon",
+      "program": "d:/_Study/baekjoon/build/Debug/outDebug"
     }
   ]
 }
