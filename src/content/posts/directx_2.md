@@ -2,7 +2,7 @@
 title: "DirectX3D 초기화"
 published: 2025-03-29
 description: "DirectX3D를 초기화하고 화면에 출력할 때까지의 필요한 요소를 찾고 탐구해봅니다."
-tags: ["DirectX"]
+tags: ["DirectX",k "C++"]
 category: Knowledge
 draft: false
 ---

@@ -2,7 +2,7 @@
 title: DirectX의 XMVECTOR
 published: 2025-03-28
 description: "DirectX에서의 FXMVECTOR와 CXMVECTOR의 차이와 때에 따라 사용하는 법"
-tags: ["DirectX"]
+tags: ["DirectX", "C++"]
 category: Knowledge
 draft: false
 ---
