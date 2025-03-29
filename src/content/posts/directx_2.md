@@ -90,7 +90,7 @@ Direct3D는 이 깊이 버퍼를 사용해서 어떤 물체가 다른 물체 앞
 [^4]: [MS_Learn_Docs](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ns-d3d11-d3d11_texture2d_desc)
 [^5]: [MS_Learn_Docs](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11device-createtexture2d)
 
-## 뷰들을 출력 병합기(Output Merger)에 묶고 뷰포트 설정정
+## 뷰들을 출력 병합기(Output Merger)에 묶고 뷰포트 설정
 
 이제 뷰들을 다 생성했으니 자원들이 파이프라인의 렌더 대상과 깊이-스텐실 버퍼로 작용하도록 출력 병합기에 묶어야 합니다.
 
