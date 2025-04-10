@@ -1,6 +1,6 @@
 ---
 title: DirectX의 InputAssembler
-published: 2025-04-08
+published: 2025-04-10
 description: '다이렉트 3D의 그래픽 파이프라인 단계 중 하나인 IA(Input-Assembler)에 대해 알아봅니다'
 image: ''
 tags: ["DirectX"]
