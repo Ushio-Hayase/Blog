@@ -5,7 +5,7 @@ description: '다이렉트 3D의 그래픽 파이프라인 단계 중 하나인 
 image: ''
 tags: ["DirectX"]
 category: 'Knowledge'
-draft: true
+draft: false
 lang: 'ko'
 ---
 
