@@ -1,5 +1,5 @@
 ---
-title: ControlStatementAndTriadOperator
+title:삼항연산자와 if-else문
 published: 2025-04-14
 description: '삼항연산자와 제어문의 최적화별 속도 비교 및 이유 분석'
 image: ''
