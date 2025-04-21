@@ -56,13 +56,6 @@ export const profileConfig: ProfileConfig = {
   bio: '게임분야 지망생\n ushiohayase@gmail.com',
   links: [
     {
-      name: 'Instagram',
-      icon: 'fa6-brands:instagram',       // Visit https://icones.js.org/ for icon codes
-      // You will need to install the corresponding icon set if it's not already included
-      // `pnpm add @iconify-json/<icon-set-name>`
-      url: 'https://www.instagram.com/lmgi.73/',
-    },
-    {
       name: 'Steam',
       icon: 'fa6-brands:steam',
       url: 'https://steamcommunity.com/id/UshioHayase/',
