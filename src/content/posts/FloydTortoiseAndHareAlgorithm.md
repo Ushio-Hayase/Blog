@@ -1,5 +1,5 @@
 ---
-title: FloydTortoiseAndHareAlgorithm
+title: Floyd's Tortoise And Hare Algorithm
 published: 2025-04-22
 description: '토끼와 거북이 알고리즘 설명'
 tags: ["Algorithm"]
