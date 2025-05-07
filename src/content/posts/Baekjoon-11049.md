@@ -46,10 +46,7 @@ BC를 먼저 곱하고 A를 곱하는 경우 A(BC)에 필요한 곱셈 연산의
 
 i번째 행과 j번째 열에서 점화식은 다음과 같습니다.
 
- $$dp[i][j]=min(dp[i - 1][j].first + dp[i - 1][j].second.first *\\
-dp[i - 1][j].second.second * dp[i - 1][j + 1].second.second,\\
- dp[i - 1][j + 1].first + dp[i - 1][j].second.first * dp[i - 1][j].second.second\\
- * dp[i - 1][j + 1].second.second)$$
+ $$dp[i][j]=min(dp[i - 1][j].first + dp[i - 1][j].second.first * dp[i - 1][j].second.second * dp[i - 1][j + 1].second.second,dp[i - 1][j + 1].first + dp[i - 1][j].second.first * dp[i - 1][j].second.second * dp[i - 1][j + 1].second.second)$$
 
 이 문제의 예제 입력에 대해서는 잘 나왔지만 다른 예제에 대해선 반례가 많이 나와 이 알고리즘은 포기했습니다.
 
@@ -65,7 +62,7 @@ dp[i - 1][j].second.second * dp[i - 1][j + 1].second.second,\\
 
 확실히 그래프 탐색이나 다른 유형에 비해 dp가 약한게 느껴지고 더 연습해야겠습니다.
 
-[^1] : [백준 10844번 문제 링크](https://www.acmicpc.net/problem/10844)
+[^1]: [백준 10844번 문제 링크](https://www.acmicpc.net/problem/10844)
 
 ## 코드
 
