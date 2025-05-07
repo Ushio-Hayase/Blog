@@ -46,7 +46,7 @@ BC를 먼저 곱하고 A를 곱하는 경우 A(BC)에 필요한 곱셈 연산의
 
 i번째 행과 j번째 열에서 점화식은 다음과 같습니다.
 
-$$dp[i][j]=min(dp[i - 1][j].first + dp[i - 1][j].second.first *\\
+ $$dp[i][j]=min(dp[i - 1][j].first + dp[i - 1][j].second.first *\\
 dp[i - 1][j].second.second * dp[i - 1][j + 1].second.second,\\
  dp[i - 1][j + 1].first + dp[i - 1][j].second.first * dp[i - 1][j].second.second\\
  * dp[i - 1][j + 1].second.second)$$
