@@ -51,7 +51,7 @@ export const navBarConfig: NavBarConfig = {
 }
 
 export const profileConfig: ProfileConfig = {
-  avatar: 'assets/images/avatar.jpg',  // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+  avatar: 'assets/images/avatar.png',  // Relative to the /src directory. Relative to the /public directory if it starts with '/'
   name: 'Ushio Hayase',
   bio: '게임분야 지망생\n ushiohayase@gmail.com',
   links: [
@@ -66,7 +66,6 @@ export const profileConfig: ProfileConfig = {
       url: 'https://github.com/Ushio-Hayase',
     },
   ],
-
 }
 
 export const licenseConfig: LicenseConfig = {
