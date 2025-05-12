@@ -57,9 +57,13 @@ cuDNN을 이용한 코드로 기존 텐서 클래스의 코드도 갈아엎고 �
 역전파는 좀 이해하기 어려운 점도 있었는데 일단 편미분까지는 기존에 알고있던 지식이 있어 이해했지만 편미분을 행렬형태로 확장시키는 것이 힘들었습니다.
 
 어찌저찌해서 가중치 W에 대한 미분이
+
 $$\frac{\partial E_{total}}{\partial W} = X^T \cdot \frac{\partial L}{\partial Y}$$
+
 라는 것과 입력 X에 대한 미분이
+
 $$\frac{\partial E_{total}}{\partial X} = \frac{\partial L}{\partial Y}\cdot W^T$$
+
 라는 것을 이해하고 코드로 구현했습니다.
 
 이제 모델을 쉽게 생성할 수 있도록 모델 클래스를 잘 설계하고 만들어야겠습니다.
