@@ -70,4 +70,4 @@ $$\frac{\partial E_{total}}{\partial X} = \frac{\partial L}{\partial Y}\cdot W^T
 
 ## 프로젝트 깃헙
 
-::github{repo="Ushio-Hayase/AIModelFromScratch"}
+::github{repo="Ushio-Hayase/Ushionn"}
