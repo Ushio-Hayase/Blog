@@ -66,6 +66,7 @@ export const profileConfig: ProfileConfig = {
       url: 'https://github.com/Ushio-Hayase',
     },
   ],
+
 }
 
 export const licenseConfig: LicenseConfig = {
