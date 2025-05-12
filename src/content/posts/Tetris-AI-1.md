@@ -56,4 +56,4 @@ CUDA를 설치하고 빌드 설정은 끝냈는데 너무 기대됩니다.
 
 ## 프로젝트 깃헙
 
-::github{repo="Ushio-Hayase/AIModelFromScratch"}
+::github{repo="Ushio-Hayase/Ushionn"}

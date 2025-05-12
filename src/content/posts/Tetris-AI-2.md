@@ -54,4 +54,4 @@ AI에 대해서는 예전부터 관심이 있었고 C++과 rust같은 로우레�
 
 ## 프로젝트 깃헙
 
-::github{repo="Ushio-Hayase/AIModelFromScratch"}
+::github{repo="Ushio-Hayase/Ushionn"}
