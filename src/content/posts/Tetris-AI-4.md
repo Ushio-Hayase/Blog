@@ -103,7 +103,7 @@ $$\frac{\partial \bold Y}{\partial x} = \begin{bmatrix} \frac{\partial y_{11}}{\
 
 기본적인 신경망에서 선형 레이어는 다음과 같은 수식으로 이루어집니다.
 
-$$\bold x^T \bold W + \bold b = \bold y$$
+$$\bold x^T \bold \it W + \bold b = \bold y$$
 
 이 때, $\bold x$는 입력 벡터, $\bold W$는 가중치 행렬, $\bold b$는 편향 벡터, $\bold y$는 출력 벡터입니다.
 
@@ -115,7 +115,7 @@ $$\bold x^T \bold W + \bold b = \bold y$$
 이 때 범위를 좁혀 오차함수의 값을 $E_{total}$이라고 하고 레이어가 한 층이라 할 때 역전파를 보면 가중치 $W$에 대해 미분을 하면
 다음과 같이 식이 구성됩니다. (활성화 함수는 계산이 복잡해지니 일단 제외)
 
-$$\frac{\partial E_{total}}{\partial \bold W}=\frac{\partial E_{total}}{\partial \bold y}\frac{\partial \bold y}{\partial \bold W}$$
+$$\frac{\partial E_{total}}{\partial \bold \it W}=\frac{\partial E_{total}}{\partial \bold y}\frac{\partial \bold y}{\partial \bold \it W}$$
 
 이 때 $\frac{\partial \bold y}{\partial \bold W}$는 3차원 텐서라 컴퓨터에 적합한 자료구조가 아닙니다.
 
@@ -123,14 +123,20 @@ $$\frac{\partial E_{total}}{\partial \bold W}=\frac{\partial E_{total}}{\partial
 
 가중치 행렬 요소에 대해 편미분을 했을 때 식은 다음과 같습니다.
 
-$$\frac{\partial E_{total}}{\partial \bold W_{ij}}=\frac{\partial E_{total}}{\partial \bold y_{i}}\frac{\partial \bold y_i}{\partial \bold W_{ij}}$$
+$$\frac{\partial E_{total}}{\partial \bold \it W_{ij}}=\frac{\partial E_{total}}{\partial \bold y_{i}}\frac{\partial \bold y_i}{\partial \bold \it W_{ij}}$$
 
 이 때 뒤 쪽 $\frac{\partial y_i}{\partial W_{ij}}$을 처음
 $\bold x^T \bold W + \bold b = \bold y$ 식과 관계 지어 생각해보면 이 값이 $x_j$라는 것을 알 수 있습니다.
 
-앞 쪽 항 또한 벡터에 대한 스칼라에 미분이기에 결과가 벡터라 이 식은 벡터와 벡터의 곱, 즉 외적이 됩니다.
+앞 쪽 항 또한 **벡터에 대한 스칼라에 미분**이기에 결과가 벡터라 이 식은 벡터와 벡터의 곱, 즉 **외적**이 됩니다.
 
-따라서 외적을 이용해서 컴퓨터에서 빠르게 처리하고 이것을 가중치마다 반복 또는 다중 스레드로 한번에 처리합니다.
+따라서 외적을 이용해서 컴퓨터에서 *빠르게 처리*하*고 이것을 가중치마다 반복 또는 다중 스레드로 한번에 처리합니다.
+
+이러한 생각을 계속 해보면 앞쪽으로 전달할 입력에 대한 오차함수의 미분도 금방 생각해낼 수 있습니다.
+
+$$\frac{\partial E_{total}}{\partial \bold x} = \frac{\partial E_{total}}{\partial \bold y}\frac{\partial \bold y}{\partial \bold x}=\frac{\partial E_{total}}{\partial \bold y}\bold \it W$$
+
+즉, 오차함수에 대한 입력의 미분은 가중치 행렬이 됩니다.
 
 ## 회고 및 앞으로 할 일
 
