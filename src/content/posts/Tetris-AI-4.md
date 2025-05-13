@@ -119,24 +119,30 @@ $$\frac{\partial E_{total}}{\partial \bold \it W}=\frac{\partial E_{total}}{\par
 
 이 때 $\frac{\partial \bold y}{\partial \bold W}$는 3차원 텐서라 컴퓨터에 적합한 자료구조가 아닙니다.
 
-따라서 가중치 행렬 요소마다 편미분을 해주어 구해줍니다.
+따라서 이 식을 수정할 수 있는지 보기위해 전개해보겠습니다.
 
-가중치 행렬 요소에 대해 편미분을 했을 때 식은 다음과 같습니다.
+예를 들어 $\bold y = \bold \it W\bold x(\bold \it W \in \R^{m\times n},\bold x\in \R^n)$일 때
+각 원소는 다음과 같습니다.
 
-$$\frac{\partial E_{total}}{\partial \bold \it W_{ij}}=\frac{\partial E_{total}}{\partial \bold y_{i}}\frac{\partial \bold y_i}{\partial \bold \it W_{ij}}$$
+$$\frac{\partial y_i}{\partial \bold \it W_{jk}} = \begin{cases}x_k &\text{if i = j} \\ 0 &\text{otherwise}\end{cases}$$
 
-이 때 뒤 쪽 $\frac{\partial y_i}{\partial W_{ij}}$을 처음
-$\bold x^T \bold W + \bold b = \bold y$ 식과 관계 지어 생각해보면 이 값이 $x_j$라는 것을 알 수 있습니다.
+즉 이 연산은 i와 j가 같을 때만 원소가 존재합니다.
 
-앞 쪽 항 또한 **벡터에 대한 스칼라에 미분**이기에 결과가 벡터라 이 식은 벡터와 벡터의 곱, 즉 **외적**이 됩니다.
+이것과 같은 것을 생각해보면 나타나는 것이 다음과 같습니다.
 
-따라서 외적을 이용해서 컴퓨터에서 *빠르게 처리*하고 이것을 가중치마다 반복 또는 다중 스레드로 한번에 처리합니다.
+$$\frac{\partial E_{total}}{\partial \bold y}\bold x^T$$
+
+이것은  **다음 층에서 건너들어온 기울기**와 **입력**을 **외적**한것과 같습니다.
+
+이 결과는 3차원 텐서의 축소된 표현으로 가능한 이유는 연산의 구조상 특정 차원이 불필요하게 중복되기 때문입니다.
+
+따라서 외적을 이용해서 컴퓨터에서 기울기 계산을 *빠르게 처리*합니다.
 
 이러한 생각을 계속 해보면 앞쪽으로 전달할 입력에 대한 오차함수의 미분도 금방 생각해낼 수 있습니다.
 
 $$\frac{\partial E_{total}}{\partial \bold x} = \frac{\partial E_{total}}{\partial \bold y}\frac{\partial \bold y}{\partial \bold x}=\frac{\partial E_{total}}{\partial \bold y}\bold \it W$$
 
-즉, 오차함수에 대한 입력의 미분은 가중치 행렬이 됩니다.
+즉, 오차함수에 대한 입력의 미분은 *가중치 행렬*이 된다는 걸 알 수 있습니다.
 
 ## 회고 및 앞으로 할 일
 
