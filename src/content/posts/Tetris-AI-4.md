@@ -53,6 +53,8 @@ $$\frac{dy}{dx} = \lim_{h\rightarrow 0} \frac{f(x+h)-f(x)}{h}=f^\prime(x)$$
 
 이것은 **스칼라 정의역의 원소**를 스칼라 **공역에 있는 원소**에 대응시키는 함수 $f$에 대한 미분으로 볼 수 있습니다.
 
+---
+
 이제 **입력이 스칼라**이고 **출력이 스칼라**인 함수로 바꿀 수 있습니다.
 
 이 함수는 당연하겠지만 한 스칼라에는 하나의 스칼라만 미분 가능하기때문에 원하는 변수만 취급하고 다른 변수는 상수로 취급하는 편미분을 이용해야합니다.
@@ -77,11 +79,15 @@ $$\bold{x}= \begin{bmatrix} x_1 \\ x_2 \\ ...\\ x_n \end{bmatrix}, f(\bold{x})= 
 
 $$\bold f(x) = \begin{bmatrix}f_1(x)\\f_2(x)\\...\\f_m(x)\end{bmatrix}, \frac{\partial \bold y}{\partial x}=\bold f^\prime(x)=\begin{bmatrix}\frac{\partial y_1}{\partial x}\\ \frac{\partial y_2}{\partial x} \\ ... \\ \frac{\partial y_m}{\partial x} \end{bmatrix}$$
 
-이 생각을 더 확장해서 이제 저희는 **입력도 벡터****이고 **출력도 벡터**인 함수를 생각할 수 있습니다.
+---
+
+이 생각을 더 확장해서 이제 저희는 **입력도 벡터**이고 **출력도 벡터**인 함수를 생각할 수 있습니다.
 
 그러면 그 결과는 행렬이 나오고 그 행렬을 자코비안 행렬이라 부르며 보통 벡터를 다른 벡터로 변환시키므로 선형변환입니다.
 
 $$\bold x = \begin{bmatrix} x_1 \\ x_2 \\ ...\\ x_n \end{bmatrix},  \bold y = \begin{bmatrix} y_1 \\ y_2 \\ ...\\ y_n \end{bmatrix}, \frac{\partial \bold y}{\partial \bold x} = \begin{bmatrix} \frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2} & \cdots & \frac{\partial y_1}{\partial x_n} \\ \frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2} & \cdots & \frac{\partial y_2}{\partial x_n} \\ \vdots & \vdots & \ddots & \vdots \\ \frac{\partial y_m}{\partial x_1} & \frac{\partial y_m}{\partial x_2} & \cdots & \frac{\partial y_m}{\partial x_n} \end{bmatrix} ^ T$$
+
+---
 
 마지막으로 행렬 함수의 미분까지 저희는 정의할 수 있습니다.
 
@@ -100,6 +106,8 @@ $$\frac{\partial \bold Y}{\partial x} = \begin{bmatrix} \frac{\partial y_{11}}{\
 $$\bold x^T \bold W + \bold b = \bold y$$
 
 이 때, $\bold x$는 입력 벡터, $\bold W$는 가중치 행렬, $\bold b$는 편향 벡터, $\bold y$는 출력 벡터입니다.
+
+---
 
 신경망은 오차함수(Loss Function)을 미분의 연쇄 법칙(Chain rule)에 따라 각 가중치와 입력에 대해 미분해 가면서 기울기를
 거슬러 올라가며 계산합니다.
