@@ -85,7 +85,7 @@ $$\bold f(x) = \begin{bmatrix}f_1(x)\\f_2(x)\\...\\f_m(x)\end{bmatrix}, \frac{\p
 
 그러면 그 결과는 행렬이 나오고 그 행렬을 자코비안 행렬이라 부르며 보통 벡터를 다른 벡터로 변환시키므로 선형변환입니다.
 
-$$\bold x = \begin{bmatrix} x_1 \\ x_2 \\ ...\\ x_n \end{bmatrix},  \bold y = \begin{bmatrix} y_1 \\ y_2 \\ ...\\ y_n \end{bmatrix}, \frac{\partial \bold y}{\partial \bold x} = \begin{bmatrix} \frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2} & \cdots & \frac{\partial y_1}{\partial x_n} \\ \frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2} & \cdots & \frac{\partial y_2}{\partial x_n} \\ \vdots & \vdots & \ddots & \vdots \\ \frac{\partial y_m}{\partial x_1} & \frac{\partial y_m}{\partial x_2} & \cdots & \frac{\partial y_m}{\partial x_n} \end{bmatrix} ^ T$$
+$$\bold x = \begin{bmatrix} x_1 \\ x_2 \\ ...\\ x_n \end{bmatrix},  \bold y = \begin{bmatrix} y_1 \\ y_2 \\ ...\\ y_n \end{bmatrix}, \frac{\partial \bold y}{\partial \bold x} = \begin{bmatrix} \frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2} & \cdots & \frac{\partial y_1}{\partial x_n} \\ \frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2} & \cdots & \frac{\partial y_2}{\partial x_n} \\ \vdots & \vdots & \ddots & \vdots \\ \frac{\partial y_m}{\partial x_1} & \frac{\partial y_m}{\partial x_2} & \cdots & \frac{\partial y_m}{\partial x_n} \end{bmatrix}$$
 
 ---
 
