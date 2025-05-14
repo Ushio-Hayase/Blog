@@ -1,5 +1,5 @@
 ---
-title: 테트리스를 깨는 AI 제작 - 4 [역전파 알고리즘 총정리]
+title: 테트리스를 깨는 AI 제작 - 4 [역전파 알고리즘 수학적 계산]
 published: 2025-05-14
 description: '테트리스를 스스로 깨는 강화학습 에이전트 CUDA부터 개발하기'
 tags: ["C++","AI", "CUDA" ,"ReinforceLearning"]
