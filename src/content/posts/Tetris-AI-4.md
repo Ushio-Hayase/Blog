@@ -1,5 +1,5 @@
 ---
-title: 테트리스를 깨는 AI 제작 - 4 [역전파 알고리즘 수학적 계산]
+title: 테트리스를 깨는 AI 제작 - 4 [경사하강법을 이용한 역전파 알고리즘 수학적 계산]
 published: 2025-05-14
 description: '테트리스를 스스로 깨는 강화학습 에이전트 CUDA부터 개발하기'
 tags: ["C++","AI", "CUDA" ,"ReinforceLearning"]
@@ -45,6 +45,9 @@ AI에 대해서는 예전부터 관심이 있었고 C++과 rust같은 로우레�
 
 ## 역전파 알고리즘 정리
 
+기본적으로 경사하강법을 이용한 역전파(Backpropagation) 알고리즘은 손실함수(오차함수; Loss Function, Cost Funcion)에
+대해 각 가중치 값을 미분해 기울기 값을 구한다음 원래 가중치에서 빼주는 알고리즘입니다.
+
 일단 이 블로그에서는 기본적으로 고등학교 수준의 미적분(다항함수의 미분)과 스칼라, 벡터, 행렬에 대한 개념은 알고있다고 가정하고 내용을 설명하겠습니다.
 
 먼저 저희가 고등학교때 배웠던 미적분의 개념을 떠올려보면 다음과 같습니다.
@@ -83,7 +86,7 @@ $$\bold f(x) = \begin{bmatrix}f_1(x)\\f_2(x)\\...\\f_m(x)\end{bmatrix}, \frac{\p
 
 이 생각을 더 확장해서 이제 저희는 **입력도 벡터**이고 **출력도 벡터**인 함수를 생각할 수 있습니다.
 
-그러면 그 결과는 행렬이 나오고 그 행렬을 자코비안 행렬이라 부르며 보통 벡터를 다른 벡터로 변환시키므로 선형변환입니다.
+그러면 그 결과는 행렬이 나오고 그 행렬을 *자코비안 행렬*이라 부르며 보통 벡터를 다른 벡터로 변환시키므로 선형변환입니다.
 
 $$\bold x = \begin{bmatrix} x_1 \\ x_2 \\ ...\\ x_n \end{bmatrix},  \bold y = \begin{bmatrix} y_1 \\ y_2 \\ ...\\ y_n \end{bmatrix}, \frac{\partial \bold y}{\partial \bold x} = \begin{bmatrix} \frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2} & \cdots & \frac{\partial y_1}{\partial x_n} \\ \frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2} & \cdots & \frac{\partial y_2}{\partial x_n} \\ \vdots & \vdots & \ddots & \vdots \\ \frac{\partial y_m}{\partial x_1} & \frac{\partial y_m}{\partial x_2} & \cdots & \frac{\partial y_m}{\partial x_n} \end{bmatrix}$$
 
@@ -132,24 +135,27 @@ $$\frac{\partial y_i}{\partial \bold \it W_{jk}} = \begin{cases}x_k &\text{if i 
 
 $$\frac{\partial E_{total}}{\partial \bold y}\bold x^T$$
 
-이것은  **다음 층에서 건너들어온 기울기**와 **입력**을 **외적**한것과 같습니다.
+이것은  **다음 층에서 건너들어온 기울기**와 **입력**을 **외적**(outer product)한것과 같습니다.
 
 이 결과는 3차원 텐서의 축소된 표현으로 가능한 이유는 연산의 구조상 특정 차원이 불필요하게 중복되기 때문입니다.
 
 따라서 외적을 이용해서 컴퓨터에서 기울기 계산을 *빠르게 처리*합니다.
 
-이러한 생각을 계속 해보면 앞쪽으로 전달할 입력에 대한 오차함수의 미분도 금방 생각해낼 수 있습니다.
+이러한 생각을 계속 해보면 *앞쪽으로 전달할 입력*에 대한 손실함수의 미분도 금방 생각해낼 수 있습니다.
 
 $$\frac{\partial E_{total}}{\partial \bold x} = \frac{\partial E_{total}}{\partial \bold y}\frac{\partial \bold y}{\partial \bold x}=\frac{\partial E_{total}}{\partial \bold y}\bold \it W$$
 
-즉, 오차함수에 대한 입력의 미분은 *가중치 행렬*이 된다는 걸 알 수 있습니다.
+즉, 오차함수에 대한 입력의 미분은 **가중치 행렬**($\bold \it W$)이 된다는 걸 알 수 있습니다.
+
+이 블로그 포스트에서는 계산의 간단함을 위해 한 층의 선형 레이어 모델로 가정하고 활성화 함수도 제외했지만 실제 상황에서는
+일반적으로 층이 여러개이고 활성화 함수도 존재해 체인 룰을 이용해 미분을 계속해 나가야 합니다.
 
 ## 회고 및 앞으로 할 일
 
 역전파 알고리즘에 대해 수학적으로 엄밀히 정의하고 컴퓨터 알고리즘 적으로도 어떻게 짜야할지 엄밀히 정의했는데
-이걸 알기위해 다른 기초적인 개념들이나 그런 걸 배우느라 엄청 힘들었습니다.
-자코비안 행렬부터 외적, 편미분 등등 많았지만 그래도 재밌었습니다.
-이제 다시 코드를 수정해야겠습니다.
+이걸 알기위해 다른 기초적인 개념들, 자코비안 행렬부터 외적, 편미분 등등을 배우느라 엄청 힘들었습니다.
+아직 선형대수학을 완전히 알지 못해 이 개념들을 다 이해는 못하지만 코드로 구현할 정도는 이해했으니 지금은 이정도로 알고
+추후에 더 찾아봐야겠습니다.
 
 ## 프로젝트 깃헙
 
