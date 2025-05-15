@@ -1,5 +1,5 @@
 ---
-title: 테트리스를 깨는 AI 제작 - 5 [클래스 및 파일 구조 재설계]
+title: 테트리스를 깨는 AI 제작 - 5 [강화학습 알고리즘 선택 및 클래스 재설계]
 published: 2025-05-15
 description: '테트리스를 스스로 깨는 강화학습 에이전트 CUDA부터 개발하기'
 tags: ["C++","AI", "CUDA" ,"ReinforceLearning"]
