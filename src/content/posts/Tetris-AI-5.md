@@ -117,11 +117,7 @@ $$q_\pi(s,a)=\it E_\pi[G_t|S_t=s,A_t=a]$$
 
 벨만 기대 방정식은 가치함수식에서 유도되는 것인데 과정은 다음과 같습니다.
 
-$$v(s) = \it E[G_t|S_t=s] \\
-= E[R_{t+1}+\gamma R_{t+2}+\gamma^2R_{t+3}+...|S_t=s] \\
-= E[R_{t+1}+\gamma(R_{t+2}+\gamma R_{t+3}+...)|S_t=s] \\
-= E[R_{t+1}+\gamma G_{t+1}|S_t=s] \\
-= E[R_{t+1}+\gamma v(S_{t+1})|S_t=s] $$
+$$v(s) = \it E[G_t|S_t=s] \\ = E[R_{t+1}+\gamma R_{t+2}+\gamma^2R_{t+3}+...|S_t=s] \\ = E[R_{t+1}+\gamma(R_{t+2}+\gamma R_{t+3}+...)|S_t=s] \\ = E[R_{t+1}+\gamma G_{t+1}|S_t=s] \\ = E[R_{t+1}+\gamma v(S_{t+1})|S_t=s] $$
 
 Q함수 또한 변형하면 다음과 같은 식이 유도됩니다.
 
