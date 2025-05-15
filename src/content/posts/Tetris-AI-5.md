@@ -139,8 +139,7 @@ $$q_\pi(s,a) = E_\pi[R_{t+1}+\gamma q_\pi(s_{t+1}, A_{t+1})|s_t=s,A_t=a]$$
 
 벨만 최적 방정식은 위에서 설명한 최적 가치함수를 벨만 기대 방정식처럼 현재 상태의 최적 가치함수와 다음 상태의 최적 가치함수 사이의 관계로 나타낸 식입니다.
 
-$$v^\star(s) = max_aE[R_{t+1}+\gamma v^\star(S_{t+1})|S_t=s,A_t=a],\\
-q^\star(s,a) = max_aE[R_{t+1}+\gamma q^\star(S_{t+1},a^\prime)|S_t=s,A_t=a]$$
+$$v^\star(s) = max_aE[R_{t+1}+\gamma v^\star(S_{t+1})|S_t=s,A_t=a],\\ q^\star(s,a) = max_aE[R_{t+1}+\gamma q^\star(S_{t+1},a^\prime)|S_t=s,A_t=a]$$
 
 ### 다시 DQN
 
@@ -189,6 +188,7 @@ AI 에이전트는 테트리스 게임을 시작하여 현재 상태를 관찰�
 ### ushionn::Tensor 클래스
 
 1. 주요 멤버 변수:
+
 - std::vector<int64_t> shape_: 텐서의 각 차원 크기를 저장 (예: {배치, 채널, 높이, 너비}).
 - mutable std::vector<int64_t> strides_: NCHW 또는 NHWC 같은 메모리 레이아웃에 따른 각 차원의 스트라이드 값.
 - get_strides() 호출 시 필요에 따라 계산 후 캐싱.
@@ -201,7 +201,9 @@ AI 에이전트는 테트리스 게임을 시작하여 현재 상태를 관찰�
 - DataLocation current_location_: enum class DataLocation { NONE, HOST, DEVICE } 중 하나의 값을 가지며, 현재 데이터가 유일하게 존재하는 위치를 명시.
 - bool strides_dirty_: 스트라이드 재계산 필요 여부 플래그.
 - size_t size_in_bytes_cache_: 텐서 데이터의 총 바이트 크기 (계산 후 캐싱).
+
 2. 주요 public 메소드:
+
 - Tensor(const std::vector<int64_t>& shape, ...): 다양한 생성자 (shape만, CPU 데이터로 초기화 등).
 - const std::vector<int64_t>& get_shape() const: 텐서의 shape 반환.
 - const std::vector<int64_t>& get_strides() const: 텐서의 strides 반환 (내부적으로 계산).
@@ -222,12 +224,15 @@ AI 에이전트는 테트리스 게임을 시작하여 현재 상태를 관찰�
 - void print_meta_info(const std::string& header = "") const: 텐서의 메타 정보(shape, data type, location 등) 출력 (디버깅용).
 - std::shared_ptr<cudnn_frontend::graph::Tensor> create_graph_tensor_attributes(...)
 
-### ushionn::Layer (추상 베이스 클래스):
+### ushionn::Layer (추상 베이스 클래스)
 
 1. 주요 멤버 변수 (protected):
+
 - std::string name_: 레이어의 이름 (디버깅 및 식별용).
 - bool trainable_: 이 레이어가 학습 가능한 파라미터를 가졌는지 여부.
+
 2. 주요 순수 가상 메소드 (public):
+
 - virtual Tensor forward(const Tensor& input) = 0;: 순전파 연산을 수행. 입력 Tensor를 받아 처리한 후 출력 Tensor를 반환. 모든 데이터 연산은 GPU에서 수행되는 것을 목표로 함.
 - virtual Tensor backward(const Tensor& output_gradient) = 0;: 역전파 연산을 수행. 출력층으로부터 전달된 그래디언트(output_gradient)를 받아 입력층으로 전달할 그래디언트를 계산하고, 내부 파라미터가 있다면 파라미터에 대한 그래디언트도 계산하여 저장.
 - virtual std::vector<Tensor*> get_parameters(): 학습 가능한 파라미터 Tensor들의 포인터 리스트 반환 (예: 가중치, 편향). 파라미터가 없으면 빈 리스트 반환.
