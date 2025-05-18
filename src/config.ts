@@ -11,8 +11,8 @@ export const siteConfig: SiteConfig = {
   subtitle: 'Blog',
   lang: 'ko',         // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko'
   themeColor: {
-    hue: 300,         // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
-    fixed: false,     // Hide the theme color picker for visitors
+    hue: 225,         // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
+    fixed: true,     // Hide the theme color picker for visitors
   },
   banner: {
     enable: true,
@@ -20,8 +20,8 @@ export const siteConfig: SiteConfig = {
     position: 'center',      // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
     credit: {
       enable: true,         // Display the credit text of the banner image
-      text: '梦人 by 镜雨无声',              // Credit text to be displayed
-      url: 'https://www.pixiv.net/artworks/127962512'                // (Optional) URL link to the original artwork or artist's page
+      text: 'NovelAI Diffusion V4 Full プライベートテスト、近日公開 by 不気味の谷',              // Credit text to be displayed
+      url: 'https://www.pixiv.net/artworks/127177849'                // (Optional) URL link to the original artwork or artist's page
     }
   },
   toc: {
