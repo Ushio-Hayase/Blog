@@ -44,6 +44,89 @@ lang: 'ko'
 ![dial6](./다이얼알고리즘6.jpg)
 ![dial7](./다이얼알고리즘7.jpg)
 
+## 코드
+
+```cpp
+#include <iostream>
+#include <limits>
+#include <list>
+#include <vector>
+
+using namespace std;
+
+vector<int> dist;
+vector<list<int>> buckets;
+vector<list<pair<int, int>>> adj_list;
+int num_vertices = 6;
+int max_edge_w = 5;
+int source = 0;
+int max_weight = 7;
+
+const int INF = numeric_limits<int>::max();
+
+vector<int> dialAlgorithm()
+{
+    dist[source] = 0;
+
+    int max_path_sum = (num_vertices - 1) * max_weight;
+
+    buckets.resize(max_path_sum + 1);
+
+    for (int i = 0; i < max_path_sum; ++i)
+    {
+        while (!buckets[i].empty())
+        {
+            int cur_vertex = buckets[i].front();
+            buckets[i].pop_front();
+
+            if (dist[cur_vertex] < i) continue;
+
+            for (const auto& edge : adj_list[cur_vertex])
+            {
+                int next_vertex = edge.first;
+                int edge_weight = edge.second;
+
+                if (dist[cur_vertex] + edge_weight < dist[next_vertex])
+                {
+                    dist[next_vertex] = dist[cur_vertex] + edge_weight;
+                    buckets[dist[next_vertex]].push_back(next_vertex);
+                }
+            }
+        }
+    }
+
+    return dist;
+}
+
+int main()
+{
+    adj_list.resize(num_vertices);
+
+    adj_list[0].push_back({1, 2});
+    adj_list[0].push_back({2, 5});
+    adj_list[1].push_back({0, 2});
+    adj_list[1].push_back({2, 1});
+    adj_list[1].push_back({3, 7});
+    adj_list[2].push_back({0, 5});
+    adj_list[2].push_back({1, 1});
+    adj_list[2].push_back({3, 3});
+    adj_list[2].push_back({4, 2});
+    adj_list[3].push_back({1, 7});
+    adj_list[3].push_back({2, 3});
+    adj_list[3].push_back({4, 1});
+    adj_list[3].push_back({5, 4});
+    adj_list[4].push_back({2, 2});
+    adj_list[4].push_back({3, 1});
+    adj_list[4].push_back({5, 6});
+    adj_list[5].push_back({3, 4});
+    adj_list[5].push_back({4, 6});
+
+    vector<int> shortest_distances = dialAlgorithm();
+
+    return 0;
+}
+```
+
 ## 장점
 
 - W가 작을 때: 힙을 사용하는 다익스트라 알고리즘($O(E log V)$ 또는 $O((E+V)log V)$)보다 빠를 수 있습니다. 특히, 그래프가 조밀(dense)하고 W가 작을 때 효과적입니다.
