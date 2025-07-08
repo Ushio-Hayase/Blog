@@ -4,7 +4,7 @@ published: 2025-05-08
 description: '테트리스를 스스로 깨는 강화학습 에이전트 CUDA부터 개발하기'
 tags: ["C++","AI", "CUDA" ,"ReinforceLearning"]
 category: 'Project'
-draft: false 
+draft: true
 lang: 'ko'
 ---
 
