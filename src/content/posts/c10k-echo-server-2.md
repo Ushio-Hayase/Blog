@@ -486,6 +486,256 @@ int main()
         }
     }
 }
+
+```
+
+## 고칠점
+
+여기서 connection_count가 중복으로 세지는 문제와 같은 파일 디스크럽터를 여러 스레드가 동시에 접근하는 걸 막기위해 클라이언트는 한번에 소켓을 만든뒤 유지하는 걸로 바꿨습니다.
+
+### 서버 코드
+
+```cpp
+#include <netinet/in.h>
+#include <sys/epoll.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+#include <atomic>
+#include <cstring>
+#include <iostream>
+#include <thread>
+#include <vector>
+
+constexpr int EVENT_SIZE = 1024;
+constexpr int BUF_SIZE = 1024;
+constexpr int THREAD_COUNT = 17;
+
+sockaddr_in server_addr;
+socklen_t sock_len = sizeof(sockaddr);
+
+void worker(int epoll_fd, int listen_sock)
+{
+    while (true)
+    {
+        epoll_event ev[EVENT_SIZE];
+        int ev_cnt = epoll_wait(epoll_fd, ev, EVENT_SIZE, -1);
+
+        for (int i = 0; i < ev_cnt; ++i)
+        {
+            if (ev[i].data.fd == listen_sock)
+            {
+                sockaddr_in client_addr;
+
+                int acpt_sock =
+                    accept(listen_sock, (sockaddr*)&client_addr, &sock_len);
+
+                epoll_event cur_ev;
+                cur_ev.data.fd = acpt_sock;
+                cur_ev.events = EPOLLIN;
+
+                epoll_ctl(epoll_fd, EPOLL_CTL_ADD, acpt_sock, &cur_ev);
+            }
+            else if (ev[i].events & EPOLLIN)
+            {
+                int acpt_sock = ev[i].data.fd;
+                char buf[BUF_SIZE];
+                int recv_bytes = recv(acpt_sock, buf, BUF_SIZE, 0);
+                if (recv_bytes > 0)
+                {
+                    int send_bytes = send(acpt_sock, buf, BUF_SIZE, 0);
+                    if (send_bytes == -1)
+                        std::cerr << "data sending error: " << strerror(errno)
+                                  << std::endl;
+                }
+                else if (recv_bytes == -1)
+                    std::cerr << "data recving error: " << strerror(errno)
+                              << std::endl;
+
+                close(acpt_sock);
+                epoll_ctl(epoll_fd, EPOLL_CTL_DEL, acpt_sock, nullptr);
+            }
+        }
+    }
+}
+
+int main()
+{
+    std::vector<std::thread> thread_pool;
+
+    server_addr.sin_port = htons(8888);
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = 0;
+    memset(&(server_addr.sin_zero), 0, 8);
+
+    int epoll_fd = epoll_create1(0);
+
+    int listen_sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (listen_sock == -1) std::cerr << "socket craeting error" << std::endl;
+    std::cout << "socket creating" << std::endl;
+
+    int bind_res = bind(listen_sock, (sockaddr*)&server_addr, sock_len);
+    if (bind_res == -1) std::cerr << "binding error" << std::endl;
+    std::cout << "socket binding" << std::endl;
+
+    int listen_res = listen(listen_sock, EVENT_SIZE);
+    if (listen_res == -1) std::cerr << "listening error" << std::endl;
+    std::cout << "socket listening start" << std::endl;
+
+    epoll_event listen_ev;
+    listen_ev.data.fd = listen_sock;
+    listen_ev.events = EPOLLIN;
+
+    int ep_res = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, listen_sock, &listen_ev);
+    if (ep_res == -1) std::cerr << "epoll registing error" << std::endl;
+
+    for (int i = 0; i < THREAD_COUNT; ++i)
+        thread_pool.emplace_back(worker, epoll_fd, listen_sock);
+
+    for (int i = 0; i < THREAD_COUNT; ++i) thread_pool[i].join();
+}
+```
+
+### 클라이언트 코드
+
+```cpp
+#include <arpa/inet.h>
+#include <sys/epoll.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+#include <atomic>
+#include <chrono>
+#include <cstring>
+#include <iostream>
+#include <mutex>
+#include <thread>
+#include <vector>
+
+constexpr int BUF_SIZE = 1024;
+constexpr int MAX_EVENTS = 1024;
+constexpr int THREAD_COUNT = 16;
+constexpr int MAX_CONNECT = 12000;
+
+std::atomic<int> connection_count{0};
+int epoll_fd;
+
+sockaddr_in server_addr;
+
+void worker()
+{
+    int epoll_fd = epoll_create1(0);
+    if (epoll_fd == -1)
+    {
+        std::cerr << "worker epoll_create1 failed: " << strerror(errno)
+                  << std::endl;
+        return;
+    }
+
+    std::string str = "Hello,World!";
+    char send_buf[BUF_SIZE];
+    std::fill(send_buf, send_buf + BUF_SIZE, 0);
+    memcpy(send_buf, str.c_str(), str.length());
+
+    for (int i = 0; i < MAX_CONNECT / THREAD_COUNT; ++i)
+    {
+        int sock = socket(AF_INET, SOCK_STREAM, 0);
+        if (sock == -1)
+        {
+            std::cerr << "socket creating error: " << strerror(errno)
+                      << std::endl;
+            continue;
+        }
+        if (connect(sock, (sockaddr*)&server_addr, sizeof(sockaddr)) == -1)
+        {
+            std::cerr << "connecting error: " << strerror(errno) << std::endl;
+            close(sock);
+            continue;
+        }
+        if (send(sock, send_buf, BUF_SIZE, 0) == -1)
+        {
+            std::cerr << "sending error: " << strerror(errno) << std::endl;
+            close(sock);
+            continue;
+        }
+
+        epoll_event ev;
+        ev.data.fd = sock;
+        ev.events = EPOLLIN;
+        epoll_ctl(epoll_fd, EPOLL_CTL_ADD, sock, &ev);
+        connection_count++;
+    }
+
+    epoll_event events[MAX_EVENTS];
+    while (true)
+    {
+        int ev_cnt = epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
+        for (int i = 0; i < ev_cnt; ++i)
+        {
+            if (events[i].events & EPOLLIN)
+            {
+                int sock = events[i].data.fd;
+                char recv_buf[BUF_SIZE];
+                int recv_res = recv(sock, recv_buf, BUF_SIZE, 0);
+
+                epoll_ctl(epoll_fd, EPOLL_CTL_DEL, sock, nullptr);
+                close(sock);
+                --connection_count;
+
+                int new_sock = socket(AF_INET, SOCK_STREAM, 0);
+                if (new_sock == -1) continue;
+                if (connect(new_sock, (sockaddr*)&server_addr,
+                            sizeof(sockaddr)) == -1)
+                {
+                    close(new_sock);
+                    continue;
+                }
+                if (send(new_sock, send_buf, BUF_SIZE, 0) == -1)
+                {
+                    close(new_sock);
+                    continue;
+                }
+                epoll_event ev;
+                ev.data.fd = new_sock;
+                ev.events = EPOLLIN;
+                epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_sock, &ev);
+                ++connection_count;
+            }
+        }
+    }
+}
+
+int main()
+{
+    std::vector<std::thread> thread_pool;
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(8888);
+
+    if (inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr) <= 0)
+    {
+        std::cerr << "\nInvalid address/ Address not supported \n";
+    }
+
+    epoll_fd = epoll_create1(0);
+
+    for (int i = 0; i < THREAD_COUNT; ++i)
+    {
+        thread_pool.emplace_back(worker);
+    }
+
+    auto start = std::chrono::system_clock::now();
+
+    while (true)
+    {
+        auto end = std::chrono::system_clock::now();
+        if ((end - start) > std::chrono::seconds(1))
+        {
+            std::cerr << connection_count << std::endl;
+            start = end;
+        }
+    }
+}
 ```
 
 ## 참고
