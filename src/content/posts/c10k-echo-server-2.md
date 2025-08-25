@@ -493,6 +493,8 @@ int main()
 
 여기서 connection_count가 중복으로 세지는 문제와 같은 파일 디스크럽터를 여러 스레드가 동시에 접근하는 걸 막기위해 클라이언트는 한번에 소켓을 만든뒤 유지하는 걸로 바꿨습니다.
 
+서버쪽에서도 경쟁 상태가 일어나는 부분이 있었는데 그 부분을 소켓을 epoll에 등록할 때 EPOLLONESHOT과 EPOLLET를 주는 것으로 해결했습니다.
+
 ### 서버 코드
 
 ```cpp
@@ -532,7 +534,7 @@ void worker(int epoll_fd, int listen_sock)
 
                 epoll_event cur_ev;
                 cur_ev.data.fd = acpt_sock;
-                cur_ev.events = EPOLLIN;
+                cur_ev.events = EPOLLIN | EPOLLONESHOT | EPOLLET;
 
                 epoll_ctl(epoll_fd, EPOLL_CTL_ADD, acpt_sock, &cur_ev);
             }
@@ -548,12 +550,15 @@ void worker(int epoll_fd, int listen_sock)
                         std::cerr << "data sending error: " << strerror(errno)
                                   << std::endl;
                 }
-                else if (recv_bytes == -1)
-                    std::cerr << "data recving error: " << strerror(errno)
-                              << std::endl;
+                else
+                {
+                    if (recv_bytes == -1)
+                        std::cerr << "data recving error: " << strerror(errno)
+                                  << std::endl;
 
-                close(acpt_sock);
-                epoll_ctl(epoll_fd, EPOLL_CTL_DEL, acpt_sock, nullptr);
+                    close(acpt_sock);
+                    epoll_ctl(epoll_fd, EPOLL_CTL_DEL, acpt_sock, nullptr);
+                }
             }
         }
     }
