@@ -1,5 +1,5 @@
 ---
-title: C10K 에코 서버 제작
+title: C10K 에코 서버 제작 - 2
 published: 2025-08-26
 description: '동시에 1만개의 연결이 가능한 에코 서버 제작'
 tags: ["C++", "Network"]
