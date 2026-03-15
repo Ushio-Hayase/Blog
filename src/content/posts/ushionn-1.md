@@ -1,0 +1,265 @@
+---
+title: UshioNN 개발 일지 - 1 
+published: 2026-03-15
+description: '클래스와 관계 정의'
+tags: ["C++", "CUDA"]
+category: 'Project'
+draft: false
+lang: 'ko'
+---
+
+## 전체 클래스 구조
+
+```mermaid
+classDiagram
+    class DType {
+        <<enumeration>>
+        FP4
+        FP8_e5m2
+        FP8_e4m3
+        BF16
+        FP16
+        FP32
+        FP64
+    }
+    class DeviceType {
+        <<enumeration>>
+        NONE
+        HOST
+        DEVICE
+    }
+    class Device {
+        +type_ DeviceType
+        +index_ int
+    }
+    namespace Memory {
+        class Storage {
+            +void* ptr
+        }
+        class IAllocator {
+            +allocate(size_t size) void**
+            +deallocate(void* ptr) void*
+        }
+        class BaseAllocator~T~ {
+            <<template>>
+            +allocate(size_t size) void*
+            +deallocate(void* ptr) void
+        }
+        class CPUAllocator {
+            +allocate(size_t size) void*
+            +deallocate(void* ptr) void
+        }
+        class CUDAAllocator {
+            +allocate(size_t size) void *
+            +deallocate(void* ptr) void*
+        }
+        class MemoryPool {
+            -Allocator alloc_;
+        }
+    }
+    namespace core {
+        class StorageImpl {
+            -unique_ptr~Storage~ data_
+            -BaseAllocator~T~ allocator_
+            -size_t total_bytes
+        }
+
+        class Tensor {
+            +Tensor()
+            +Tensor~T~(const vector~size_t~ & shape, const T* ptr, Device location)
+            +Tensor(vector~size_t~ shape, DType type, Device location)
+            +transpose(size_t dim1, size_t dim2) Tensor
+            +permute(const vector~size_t~ & order) Tensor
+            +view(const vector~size_t~ & shape) Tensor
+            +reshape(const vector~size_t~ & shape) Tensor
+            +clone() Tensor
+            +contiguous() const
+            +to(Device location) Tensor
+            +to(DType type) Tensor
+            +cpu() Tensor
+            +cuda() Tensor
+            +operator+=(const Tensor& other) Tensor&
+            +operator*=(const float scalar) Tensor&
+            +shape() const vector~size_t~
+            +strides() const vector~size_t~
+            +dim() size_t
+            +numel() size_t
+            +dtype() DType
+            +device() Device
+            +is_contiguous() bool
+            +data_ptr~T~() T*
+            -shared_ptr~TensorImpl~ impl_
+        }
+        class TensorImpl {
+            +TensorImpl(vector~size_t~ shape, DType type, Device location)
+            +TensorImpl(shared_ptr~Storage~ storage, vector~size_t~ shape, vector~size_t~ strides, size_t offset, DType type)
+            +shape() const vector~size_t~ &
+            +strides() const vector~size_t~ &
+            +dim() size_t
+            +numel() size_t
+            +storage_offset() size_t
+            +dtype() DType
+            +device() Device
+            +is_contiguous() bool
+            +data() void*
+            +data_ptr~T~() T*
+            +storage() shared_ptr~Storage~
+            -calculate_default_strides() vector~size_t~
+            -shape_ Shape
+            -strides_ Strides
+            -size_t total_elements_
+            -size_t storage_offset_
+            -DType type_
+            -shared_ptr~StorageImpl~ storage_
+        }
+        class Shape {
+            +reshape(const vector~size_t~ shape) void
+            +shape() const vector~size_t~ &
+            -vector~size_t~ shape_
+        }
+        class Strides {
+            +transpose(size_t dim1, size_t dim2) void
+            +view(const vector~size_t~ & shape) void
+            +broadcast(const Shape& other_shape) void
+            +strides() const vector~size_t~ &
+            -vector~size_t~ strides_
+        }
+    }
+    namespace Operation {
+    %% 개별 Operator 내부에서 커널 호출
+        class Add {
+            +forward(const Tensor& a, const Tensor& b) Tensor$
+        }
+        class Matmul {
+            +forward(const Tensor& a, const Tensor& b) Tensor$
+        }
+        class ElememtwiseMul {
+            +forward(const Tensor& a, const Tensor& b) Tensor$
+        }
+        class ReLU {
+            +forward(const Tensor& a) Tensor$
+        }
+        class Softmax {
+            +forward(const Tensor& a, int dim) Tensor$
+        }
+    }
+    namespace Layer {
+        class ILayer {
+            <<interface>>
+            +forward(const Tensor& t) Tensor*
+            +to(const Device& device) void*
+            +load_weights(const unordered_map<std:: string, Tensor>& state_dict) void*
+            +name() const string*
+        }
+        class Conv1D {
+            +forward(const Tensor& t) Tensor
+            +to(const Device& device) void
+            +load_weights(const unordered_map<std:: string, Tensor>& state_dict) void
+            +name() string
+            -weight_ Tensor
+            -bias_ Tensor
+        }
+        class Conv2D {
+            +forward(const Tensor& t) Tensor
+            +to(const Device& device) void
+            +load_weights(const unordered_map<std:: string, Tensor>& state_dict) void
+            +name() string
+            -weight_ Tensor
+            -bias_ Tensor
+        }
+        class Conv3D {
+            +forward(const Tensor& t) Tensor
+            +to(const Device& device) void
+            +load_weights(const unordered_map<std:: string, Tensor>& state_dict) void
+            +name() string
+            -weight_ Tensor
+            -bias_ Tensor
+        }
+        class Linear {
+            +forward(const Tensor& t) Tensor
+            +to(const Device& device) void
+            +load_weights(const unordered_map<std:: string, Tensor>& state_dict) void
+            +name() string
+            -weight_ Tensor
+            -bias_ Tensor
+        }
+        class BatchNorm {
+            +forward(const Tensor& t) Tensor
+            +to(const Device& device) void
+            +load_weights(const unordered_map<std:: string, Tensor>& state_dict) void
+            +name() string
+            -weight_ Tensor
+            -bias_ Tensor
+            -running_mean_ Tensor
+            -running_var_ Tensor
+        }
+        class Pooling {
+            +forward(const Tensor& t) Tensor
+            +to(const Device& device) void
+            +load_weights(const unordered_map<std:: string, Tensor>& state_dict) void
+            +name() string
+        }
+    }
+
+    namespace Running {
+        class Sequential {
+            -vector~shared_ptr~ILayer~~ order_
+        }
+        class GraphExecutor {
+            +run() Tensor
+            -vector~string~ order_
+        }
+        class GraphTopologicalSort {
+            +sort() vector~string~$
+        }
+    }
+
+    namespace HWAccelerator {
+    %% CUDA 쪽은 아직 모름
+        class CudaStream {
+            +synchronize() void
+            -stream_ cudaStream_t
+        }
+        class KernelConfigurator {
+            +static dim3 get_grid_size(size_t total_elements);
+            +static dim3 get_block_size();
+        }
+        class CudaEvent {
+        }
+        class DeviceContext {
+            -MemoryPool* cuda_pool_
+            -instance_ DeviceContext$
+        }
+    }
+
+    namespace Utils {
+        class StateDict {
+            +find(string str) Tensor
+            +append(string str, const Tensor& tensor) void
+            -unordered_map~string, Tensor~ map_
+        }
+
+        class Parser {
+            <<interface>>
+            +parse(string filename) StateDict*
+        }
+        class SafeTensorParser {
+            +parse(string filename) StateDict
+        }
+    }
+
+    IAllocator <|-- BaseAllocator
+    BaseAllocator~CPUAllocator~ <|-- CPUAllocator
+    BaseAllocator~CUDAAllocator~ <|-- CUDAAllocator
+    Tensor o-- TensorImpl
+    TensorImpl o-- StorageImpl
+    StorageImpl *-- Storage
+    ILayer <|-- Linear
+    ILayer <|-- Pooling
+    ILayer <|-- Conv1D
+    ILayer <|-- Conv2D
+    ILayer <|-- Conv3D
+    ILayer <|-- BatchNorm
+
+
+```

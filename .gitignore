@@ -1,3 +1,6 @@
+.obsidian/
+.vscode/
+
 # build output
 dist/
 
