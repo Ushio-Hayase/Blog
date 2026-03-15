@@ -576,36 +576,47 @@ if (window.swup) {
 <script>
   import svgPanZoom from 'svg-pan-zoom';
 
+  function applyZoom(svg: SVGElement) {
+    if (svg.getAttribute('data-zoom-initialized') === 'true') return;
+
+    (svg as HTMLElement).style.width = '100%';
+    (svg as HTMLElement).style.height = '500px';
+
+    svgPanZoom(svg, {
+      zoomEnabled: true,
+      controlIconsEnabled: true,
+      fit: true,
+      center: true,
+      minZoom: 0.1,
+      maxZoom: 10
+    });
+
+    svg.setAttribute('data-zoom-initialized', 'true');
+  }
+
   function initMermaidZoom() {
-    const diagrams = document.querySelectorAll('.mermaid svg');
-    
-    diagrams.forEach((svg) => {
-      (svg as HTMLElement).style.width = '100%';
-      (svg as HTMLElement).style.height = '500px';
-      
-      svgPanZoom(svg as SVGElement, {
-        zoomEnabled: true,
-        controlIconsEnabled: true,
-        fit: true,
-        center: true,
-        minZoom: 0.1,
-        maxZoom: 10
-      });
+    const containers = document.querySelectorAll('.mermaid');
+
+    containers.forEach((container) => {
+      const svg = container.querySelector('svg');
+
+      if (svg) {
+        applyZoom(svg as SVGElement);
+      } else {
+        const observer = new MutationObserver((mutations) => {
+          const addedSvg = container.querySelector('svg');
+          if (addedSvg) {
+            applyZoom(addedSvg as SVGElement);
+            observer.disconnect(); // 적용 후 감시 중단
+          }
+        });
+
+        observer.observe(container, { childList: true, subtree: true });
+      }
     });
   }
 
-  document.addEventListener('astro:page-load', initMermaidZoom);
-  window.addEventListener('load', initMermaidZoom);
+  document.addEventListener('astro:page-load', () => {
+    setTimeout(initMermaidZoom, 100);
+  });
 </script>
-
-<style is:global>
-  .mermaid {
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    cursor: grab;
-  }
-  .mermaid:active {
-    cursor: grabbing;
-  }
-</style>
