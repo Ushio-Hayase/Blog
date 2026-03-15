@@ -4,7 +4,7 @@ published: 2026-03-15
 description: '클래스와 관계 정의'
 tags: ["C++", "CUDA"]
 category: 'Project'
-draft: false
+draft: true
 lang: 'ko'
 ---
 
