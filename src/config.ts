@@ -21,8 +21,8 @@ export const siteConfig: SiteConfig = {
     position: 'center',      // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
     credit: {
       enable: true,         // Display the credit text of the banner image
-      text: 'NovelAI Diffusion V4 Full プライベートテスト、近日公開 by 不気味の谷',              // Credit text to be displayed
-      url: 'https://www.pixiv.net/artworks/127177849'                // (Optional) URL link to the original artwork or artist's page
+      text: 'Blue Archive Memorial - Hayase Yuuka(Gym)',              // Credit text to be displayed
+                      // (Optional) URL link to the original artwork or artist's page
     }
   },
   toc: {
